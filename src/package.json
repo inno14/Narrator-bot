@@ -1,0 +1,30 @@
+{
+  "name": "wolvesville-simulation",
+  "version": "0.2.0",
+  "description": "An orchestration for the Discord Server of Wolvesville Online",
+  "main": "../src/app.js",
+  "dependencies": {
+    "log-timestamp": "^0.3.0",
+    "tsutils": "^3.20.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "eslint": "^7.21.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.22.0"
+  },
+  "scripts": {
+    "test": "ping"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/wwosimulation/Narrator-bot.git"
+  },
+  "author": "Aquamarine, Ashish, TheShadow",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wwosimulation/Narrator-bot/issues"
+  },
+  "homepage": "https://github.com/wwosimulation/Narrator-bot#readme"
+}
