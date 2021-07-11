@@ -1,75 +1,41 @@
 const Discord = require("discord.js")
 const db = require("quick.db")
-const { fn, xp, roles, soloKillers } = require("../../config")
+const { fn, newxp, roles, soloKillers } = require("../../config")
+const xp = newxp
 
 module.exports = {
     name: "win",
     gameOnly: true,
     narratorOnly: true,
     run: async (message, args, client) => {
-        if (args.length < 2) message.channel.send(`Please specify the winning team and its players!\n\`\`\`${process.env.PREFIX}win <team> <players>\`\`\``)
+        if (args.length < 2) return message.channel.send(`Please specify the winning team and its players!\n\`\`\`${process.env.PREFIX}win <team> <players>\`\`\``)
         let alive = message.guild.roles.cache.find((r) => r.name === "Alive")
-        if (alive.members.size != "0") return message.channel.send('To use this command, everyone must have the "Dead" role! Use `+suicideall` if you need to kill everyone at once.')
+        //if (alive.members.size != "0") return message.channel.send('To use this command, everyone must have the "Dead" role! Use `+suicideall` if you need to kill everyone at once.')
         let dead = message.guild.roles.cache.find((r) => r.name === "Dead")
 
-        let allPlayers = []
-        for (let i = 1; i <= dead.members.size; i++) {
+        let allPlayers = [], xpValues = {}
+        for (let i = 1; i <= alive.members.size; i++) {
             let guy = message.guild.members.cache.find((m) => m.nickname === i.toString())
             if (guy) {
-                if (guy.roles.cache.has(dead.id)) {
+                if (guy.roles.cache.has(alive.id)) {
                     allPlayers.push(guy.id)
                 }
             }
         }
-        console.log(allPlayers)
         let giveXP = 0
         let won = ""
         let winTeam = args[0].toLowerCase()
-        giveXP = xp.team[winTeam]
-        if (!giveXP) return message.channel.send("XP data not found for that team")
-
+        giveXP = xp.teamMultipliers[winTeam]
+        if (!giveXP) return message.channel.send("XP data not found for that team! Valid teams: ```fix\n" + Object.keys(xp.teamMultipliers) + "\n```")
+        allPlayers.forEach(x => {
+            xpValues[x] = xp.win(allPlayers.length, winTeam)
+        })
+        console.log(xpValues)
+        message.channel.send({content: JSON.stringify(xpValues, null, 2), code: "js"})
+        return;
         let embed = new Discord.MessageEmbed().setColor("#008800")
 
-        for (let i = 1; i < args.length; i++) {}
-
-        if (args[0].toLowerCase() == "tie") {
-            for (let i = 1; i <= dead.members.size; i++) {
-                let guy = message.guild.members.cache.find((m) => m.nickname === i.toString())
-                if (guy) {
-                    let role = db.get(`role_${guy.id}`)
-                    if (role.toLowerCase().includes("wolf")) {
-                        db.add(`wlose_${guy.id}`, 1)
-                    } else if (role == "Headhunter" || role == "Fool") {
-                        db.add(`svlose_${guy.id}`, 1)
-                    } else if (soloKillers.includes(role)) {
-                        db.add(`sklose_${guy.id}`, 1)
-                    } else {
-                        db.add(`vlose_${guy.id}`, 1)
-                    }
-                    db.set(`winstreak_${guy.id}`, 0)
-                    if (guy.presence.status != "offline") {
-                        db.add(`xp_${guy.id}`, xp.team.tie)
-                        guy.send(embed.setTitle("Game Over - Tie").setDescription(`Finished Game: ${xp.finishGame}xp`).setFooter("You lost!").setColor(0xff0000))
-                    }
-                }
-            }
-            return
-        }
-
-        if (args[0].toLowerCase() == "couple") {
-            won = "cwin"
-        } else if (args[0].toLowerCase() == "werewolf") {
-            won = "wwin"
-        } else if (args[0].toLowerCase() == "village") {
-            won = "vwin"
-        } else if (args[0].toLowerCase() == "fool") {
-            won = "svwin"
-        } else if (args[0].toLowerCase() == "headhunter") {
-            won = "svwin"
-        } else if (args[0].toLowerCase() == "solo") {
-            won = "skwin"
-        }
-
+        
         for (let i = 1; i < args.length; i++) {
             let guy = fn.getUser(args[i], message)
             if (!guy) return message.channel.send(`Player ${args[i]} could not be found!`)
