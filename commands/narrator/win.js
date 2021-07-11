@@ -13,7 +13,8 @@ module.exports = {
         //if (alive.members.size != "0") return message.channel.send('To use this command, everyone must have the "Dead" role! Use `+suicideall` if you need to kill everyone at once.')
         let dead = message.guild.roles.cache.find((r) => r.name === "Dead")
 
-        let allPlayers = [], xpValues = {}
+        let allPlayers = [],
+            xpValues = {}
         for (let i = 1; i <= alive.members.size; i++) {
             let guy = message.guild.members.cache.find((m) => m.nickname === i.toString())
             if (guy) {
@@ -27,15 +28,14 @@ module.exports = {
         let winTeam = args[0].toLowerCase()
         giveXP = xp.teamMultipliers[winTeam]
         if (!giveXP) return message.channel.send("XP data not found for that team! Valid teams: ```fix\n" + Object.keys(xp.teamMultipliers) + "\n```")
-        allPlayers.forEach(x => {
+        allPlayers.forEach((x) => {
             xpValues[x] = xp.win(allPlayers.length, winTeam)
         })
         console.log(xpValues)
-        message.channel.send({content: JSON.stringify(xpValues, null, 2), code: "js"})
-        return;
+        message.channel.send({ content: JSON.stringify(xpValues, null, 2), code: "js" })
+        return
         let embed = new Discord.MessageEmbed().setColor("#008800")
 
-        
         for (let i = 1; i < args.length; i++) {
             let guy = fn.getUser(args[i], message)
             if (!guy) return message.channel.send(`Player ${args[i]} could not be found!`)
