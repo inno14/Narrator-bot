@@ -198,11 +198,11 @@ module.exports = {
                                 guys.push(guy)
                                 let hacked = db.get(`hacked_${guy.id}`) || false
                                 if (hacked == false) {
-                                  let role = db.fetch(`role_${guy.id}`)
+                                    let role = db.fetch(`role_${guy.id}`)
                                     chan1.send(`${guy.nickname} ${guy.user.username} is ${role}`)
                                     db.set(`hacked_${guy.id}`, true)
                                 } else {
-                                  let role = db.fetch(`role_${guy.id}`)
+                                    let role = db.fetch(`role_${guy.id}`)
                                     if (hack[i] != "0") {
                                         for (let j = 0; j < bh.length; j++) {
                                             let trap = db.get(`setTrap_${bh[j]}`)
