@@ -195,17 +195,17 @@ module.exports = {
                         let guy = message.guild.members.cache.find((m) => m.nickname === hack[i])
                         if (guy) {
                             if (guy.roles.cache.has(alive.id)) {
-                              let role = db.fetch(`role_${guy.id}`)
-                              let chanE
+                                let role = db.fetch(`role_${guy.id}`)
+                                let chanE
                                 guys.push(guy)
                                 chanE = message.guild.channels.cache.filter((c) => c.name === `priv-${role.toLowerCase().replace(" ", "-")}`).keyArray("id")
-                for (let j = 0; j < chanE.length; j++) {
-                    let tempchan = message.guild.channels.cache.get(chanE[j])
-                    if (tempchan.permissionsFor(guy).has(["VIEW_CHANNEL", "READ_MESSAGE_HISTORY"])) {
-                        j = 99
-                        chanE = tempchan
-                    }
-                }
+                                for (let j = 0; j < chanE.length; j++) {
+                                    let tempchan = message.guild.channels.cache.get(chanE[j])
+                                    if (tempchan.permissionsFor(guy).has(["VIEW_CHANNEL", "READ_MESSAGE_HISTORY"])) {
+                                        j = 99
+                                        chanE = tempchan
+                                    }
+                                }
                                 let hacked = db.get(`hacked_${tempchan.id}`) || false
                                 if (hacked == false) {
                                     db.set(`hacked_${tempchan.id}`, true)
