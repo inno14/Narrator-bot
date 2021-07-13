@@ -281,6 +281,9 @@ module.exports = {
                 if (db.get(`bitten_${allChannels[i]}`) == true) {
                     db.delete(`bitten_${allChannels[i]}`)
                 }
+                if (db.get(`hacked_${allChannels[i]}`) == true) {
+                  db.delete(`hacked_${allChannels[i]}`)
+                }
             }
 
             message.channel
