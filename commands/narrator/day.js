@@ -198,18 +198,18 @@ module.exports = {
                                 guys.push(guy)
                                 let hacked = db.get(`hacked_${guy.id}`) || false
                                 if (hacked == false) {
-                                    let role = db.fetch(`role_${guy.id}`)
+                                  let role = db.fetch(`role_${guy.id}`)
                                     chan1.send(`${guy.nickname} ${guy.user.username} is ${role}`)
                                     db.set(`hacked_${guy.id}`, true)
                                 } else {
-                                    let role = db.fetch(`role_${guy.id}`)
+                                  let role = db.fetch(`role_${guy.id}`)
                                     if (hack[i] != "0") {
                                         for (let j = 0; j < bh.length; j++) {
                                             let trap = db.get(`setTrap_${bh[j]}`)
                                             let active = db.get(`trapActive_${bh[j]}`)
                                             for (let m = 1; m <= alive.members.size + dead.members.size; m++) {
                                                 let hhhhh = message.guild.members.cache.find((me) => me.nickname === m.toString())
-                                                let chan = message.guild.channels.cache.get(bh[m])
+                                                let chan = message.guild.channels.cache.get(bh[j])
                                                 if (chan.permissionsFor(hhhhh).has(["VIEW_CHANNEL", "READ_MESSAGE_HISTORY"])) {
                                                     m = 99
                                                     if (!hhhhh.roles.cache.has(alive.id)) {
