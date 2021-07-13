@@ -282,7 +282,7 @@ module.exports = {
                     db.delete(`bitten_${allChannels[i]}`)
                 }
                 if (db.get(`hacked_${allChannels[i]}`) == true) {
-                    db.delete(`hacked_${allChannels[i]}`)
+                  db.delete(`hacked_${allChannels[i]}`)
                 }
             }
 
