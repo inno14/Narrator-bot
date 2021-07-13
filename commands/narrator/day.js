@@ -195,14 +195,22 @@ module.exports = {
                         let guy = message.guild.members.cache.find((m) => m.nickname === hack[i])
                         if (guy) {
                             if (guy.roles.cache.has(alive.id)) {
+                              let chanE
                                 guys.push(guy)
-                                let hacked = db.get(`hacked_${guy.id}`) || false
+                                chanE = message.guild.channels.cache.filter((c) => c.name === `priv-${role.toLowerCase().replace(" ", "-")}`).keyArray("id")
+                for (let j = 0; j < chan.length; j++) {
+                  let role = db.fetch(`role_${guy.id}`)
+                    let tempchan = message.guild.channels.cache.get(chan[j])
+                    if (tempchan.permissionsFor(guy).has(["VIEW_CHANNEL", "READ_MESSAGE_HISTORY"])) {
+                        j = 99
+                        chanE = tempchan
+                    }
+                }
+                                let hacked = db.get(`hacked_${tempchan.id}`) || false
                                 if (hacked == false) {
-                                    db.set(`hacked_${guy.id}`, true)
-                                    let role = db.fetch(`role_${guy.id}`)
+                                    db.set(`hacked_${tempchan.id}`, true)
                                     return chan1.send(`${guy.nickname} ${guy.user.username} is ${role}`)
                                 } else {
-                                    let role = db.fetch(`role_${guy.id}`)
                                     if (hack[i] != "0") {
                                         for (let j = 0; j < bh.length; j++) {
                                             let trap = db.get(`setTrap_${bh[j]}`)
